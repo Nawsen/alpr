@@ -1,0 +1,27 @@
+version: '2'
+services:
+    pi:
+      build: ./pi
+      ports:
+        - 9000:9000
+    web:
+      build: ./web
+      ports:
+          - 8080:8080
+      depends_on:
+          - db
+    db:
+        container_name: database
+        image: postgres:9.5
+        volumes:
+            - database:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_PASSWORD=master
+            - POSTGRES_USER=master
+            - POSTGRES_DB=alprweb
+            - PGDATA=/var/lib/postgresql/data/pgdata
+        ports:
+            - 5432:5432
+
+volumes:
+    database: {}
